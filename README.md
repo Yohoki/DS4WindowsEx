@@ -2,7 +2,7 @@
 This is intended only to restore Exclusive Mode access for those that need it. The new HIDHide program fixes a lot of issues and blocks most apps from recieving the raw inputs fro the physical controller, but some *cough*microsoft*cough* programs are programmed badly and still get raw inputs. Ex-Mode can block these few apps that still try to get access and works well in combination with HIDHide.
 
 # Version 3.0.10 of Main Branch DS4Win is currently bugged.
-For some reason, the mouse wheel has flipped directions when mapped to a Stick. Not really sure what's going on here yet. This was probably introduced in commit #8fd2d62 , but I will have to look into this further.
+For some reason, the mouse wheel has flipped directions when mapped to a Stick. Not really sure what's going on here yet. This was probably introduced in commit #8fd2d62 , but I will have to look into this further. In the meantime, if this issue is a problem for you, please stick to version 3.0.9 from the main branch.
 
 # This version is currently bugged!
 I've re-enabled Ex-Mode, as that code was easy to re-add. But, Ryochan7 has made edits to his github that have broken a few other things. He's probably currently working on adding new features... something about a capture button, an SR/SL and a few other things. I'll fix this when those features are finished being edited, so that he has time to add them properly before I try to push anything.
