@@ -7,6 +7,7 @@ For some reason, the mouse wheel has flipped directions when mapped to a Stick. 
 # This version is currently bugged!
 I've re-enabled Ex-Mode, as that code was easy to re-add. But, Ryochan7 has made edits to his github that have broken a few other things. He's probably currently working on adding new features... something about a capture button, an SR/SL and a few other things. I'll fix this when those features are finished being edited, so that he has time to add them properly before I try to push anything.
 Probably caused by commit #dcd59C6
+Probably fixed in commit #106f52ab53608bdc83f1e0b395fb74a05501ae20 . Will have to check tomorrow. It's late tonight.
 
 # Pulled from Main Branch's Readme.md:
 # DS4Windows
