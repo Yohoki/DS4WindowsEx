@@ -28,14 +28,28 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         }
         public event EventHandler SelectedIndexChanged;
 
-        private Dictionary<DS4Controls, MappedControl> controlMap = new Dictionary<DS4Controls, MappedControl>();
+        private Dictionary<DS4Controls, MappedControl> controlMap =
+            new Dictionary<DS4Controls, MappedControl>();
         public Dictionary<DS4Controls, MappedControl> ControlMap { get => controlMap; }
+
+        /// <summary>
+        /// DS4Controls -> Int index map. Store approriate list index for a stored MappedControl instance
+        /// </summary>
+        private Dictionary<DS4Controls, int> controlIndexMap =
+            new Dictionary<DS4Controls, int>();
+        public Dictionary<DS4Controls, int> ControlIndexMap { get => controlIndexMap; }
 
         private MappedControl l2FullPullControl;
         public MappedControl L2FullPullControl { get => l2FullPullControl; }
 
         private MappedControl r2FullPullControl;
         public MappedControl R2FullPullControl { get => r2FullPullControl; }
+
+        private MappedControl lsOuterBindControl;
+        public MappedControl LsOuterBindControl { get => lsOuterBindControl; }
+
+        private MappedControl rsOuterBindControl;
+        public MappedControl RsOuterBindControl { get => rsOuterBindControl; }
 
         private MappedControl gyroSwipeLeftControl;
         private MappedControl gyroSwipeRightControl;
@@ -93,10 +107,19 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             mappings.Add(new MappedControl(devIndex, DS4Controls.SwipeLeft, "Swipe Left", devType));
             mappings.Add(new MappedControl(devIndex, DS4Controls.SwipeRight, "Swipe Right", devType));
 
+            int controlIndex = 0;
             foreach (MappedControl mapped in mappings)
             {
                 controlMap.Add(mapped.Control, mapped);
+                controlIndexMap.Add(mapped.Control, controlIndex);
+                controlIndex++;
             }
+
+            /*
+             * Establish data binding data for virtual button DS4ControlSettings instances
+             */
+            lsOuterBindControl = new MappedControl(devIndex, DS4Controls.LSOuter, "LS Outer", devType);
+            rsOuterBindControl = new MappedControl(devIndex, DS4Controls.RSOuter, "RS Outer", devType);
 
             l2FullPullControl = new MappedControl(devIndex, DS4Controls.L2FullPull, "L2 Full Pull", devType);
             r2FullPullControl = new MappedControl(devIndex, DS4Controls.R2FullPull, "R2 Full Pull", devType);
@@ -106,6 +129,8 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             gyroSwipeUpControl = new MappedControl(devIndex, DS4Controls.GyroSwipeUp, "Gyro Swipe Up", devType);
             gyroSwipeDownControl = new MappedControl(devIndex, DS4Controls.GyroSwipeDown, "Gyro Swipe Down", devType);
 
+            extraControls.Add(lsOuterBindControl);
+            extraControls.Add(rsOuterBindControl);
             extraControls.Add(l2FullPullControl);
             extraControls.Add(r2FullPullControl);
             extraControls.Add(gyroSwipeLeftControl);
@@ -113,6 +138,8 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             extraControls.Add(gyroSwipeUpControl);
             extraControls.Add(gyroSwipeDownControl);
 
+            controlMap.Add(DS4Controls.LSOuter, lsOuterBindControl);
+            controlMap.Add(DS4Controls.RSOuter, rsOuterBindControl);
             controlMap.Add(DS4Controls.L2FullPull, l2FullPullControl);
             controlMap.Add(DS4Controls.R2FullPull, r2FullPullControl);
             controlMap.Add(DS4Controls.GyroSwipeLeft, gyroSwipeLeftControl);

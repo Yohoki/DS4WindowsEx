@@ -1000,6 +1000,15 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fuzz specifies the minimum number of device units, in active zone, that the Accel has to be rotated before the output is registered as changed in the mapper. The value is expressed in raw Accel units..
+        /// </summary>
+        public static string SASteeringWheelFuzzTooltip {
+            get {
+                return ResourceManager.GetString("SASteeringWheelFuzzTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Save {
@@ -1072,7 +1081,7 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fuzz specifies the minimum number of units the analog stick moves before the output is registered as changed in the mapper. This setting can be useful for worn sticks that cannot maintain a constant position. The value is expressed in raw stick units..
+        ///   Looks up a localized string similar to Fuzz specifies the minimum number of units the analog stick moves, in active zone, before the output is registered as changed in the mapper. This setting can be useful for worn sticks that cannot maintain a constant position. The value is expressed in raw stick units..
         /// </summary>
         public static string StickFuzzTooltip {
             get {
@@ -1108,11 +1117,56 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Threshold for when an action will fire.
+        /// </summary>
+        public static string StickOuterBindDeadTooltip {
+            get {
+                return ResourceManager.GetString("StickOuterBindDeadTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Have outer bind fire before reaching a threshold. Action releases once the threshold has been exceeded.
+        /// </summary>
+        public static string StickOuterBindInvertTooltip {
+            get {
+                return ResourceManager.GetString("StickOuterBindInvertTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Action to execute when stick travel reaches past a treshold. Useful for mapping keys for Walk or Sprint actions. Invert casues the action to fire up until the threshold.
+        /// </summary>
+        public static string StickOuterBindTooltip {
+            get {
+                return ResourceManager.GetString("StickOuterBindTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The rotation setting is meant to help correct the orientation of an analog stick if your thumb is slightly shifted when moving an analog stick. For example, your thumb might be slightly shifted from center when the analog stick is moved fully north. My thumbs shift slightly to the right when moving an analog stick fully north due to the way my hands grip the DS4. The value used denotes the number of degrees used to adjust the final axis output value. Values allows range from -180 to 180. Default is 0..
+        /// </summary>
+        public static string StickRotationTooltip {
+            get {
+                return ResourceManager.GetString("StickRotationTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop.
         /// </summary>
         public static string StopText {
             get {
                 return ResourceManager.GetString("StopText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Throttle low end of Touchpad movement. Reduces accidental mouse cursor movement when holding a mostly fixed position on the Touchpad.
+        /// </summary>
+        public static string TouchpadJitterCompTooltip {
+            get {
+                return ResourceManager.GetString("TouchpadJitterCompTooltip", resourceCulture);
             }
         }
         

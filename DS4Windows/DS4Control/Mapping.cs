@@ -772,79 +772,6 @@ namespace DS4Windows
 
             cState.CopyTo(dState);
             //DS4State dState = new DS4State(cState);
-            int x;
-            int y;
-            int curve;
-
-            /* TODO: Look into curve options and make sure maximum axes values are being respected */
-            int lsCurve = getLSCurve(device);
-            if (lsCurve > 0)
-            {
-                x = cState.LX;
-                y = cState.LY;
-                float max = x + y;
-                double curvex;
-                double curvey;
-                curve = lsCurve;
-                double multimax = TValue(382.5, max, curve);
-                double multimin = TValue(127.5, max, curve);
-                if ((x > 127.5f && y > 127.5f) || (x < 127.5f && y < 127.5f))
-                {
-                    curvex = (x > 127.5f ? Math.Min(x, (x / max) * multimax) : Math.Max(x, (x / max) * multimin));
-                    curvey = (y > 127.5f ? Math.Min(y, (y / max) * multimax) : Math.Max(y, (y / max) * multimin));
-                }
-                else
-                {
-                    if (x < 127.5f)
-                    {
-                        curvex = Math.Min(x, (x / max) * multimax);
-                        curvey = Math.Min(y, (-(y / max) * multimax + 510));
-                    }
-                    else
-                    {
-                        curvex = Math.Min(x, (-(x / max) * multimax + 510));
-                        curvey = Math.Min(y, (y / max) * multimax);
-                    }
-                }
-
-                dState.LX = (byte)Math.Round(curvex, 0);
-                dState.LY = (byte)Math.Round(curvey, 0);
-            }
-
-            /* TODO: Look into curve options and make sure maximum axes values are being respected */
-            int rsCurve = getRSCurve(device);
-            if (rsCurve > 0)
-            {
-                x = cState.RX;
-                y = cState.RY;
-                float max = x + y;
-                double curvex;
-                double curvey;
-                curve = rsCurve;
-                double multimax = TValue(382.5, max, curve);
-                double multimin = TValue(127.5, max, curve);
-                if ((x > 127.5f && y > 127.5f) || (x < 127.5f && y < 127.5f))
-                {
-                    curvex = (x > 127.5f ? Math.Min(x, (x / max) * multimax) : Math.Max(x, (x / max) * multimin));
-                    curvey = (y > 127.5f ? Math.Min(y, (y / max) * multimax) : Math.Max(y, (y / max) * multimin));
-                }
-                else
-                {
-                    if (x < 127.5f)
-                    {
-                        curvex = Math.Min(x, (x / max) * multimax);
-                        curvey = Math.Min(y, (-(y / max) * multimax + 510));
-                    }
-                    else
-                    {
-                        curvex = Math.Min(x, (-(x / max) * multimax + 510));
-                        curvey = Math.Min(y, (y / max) * multimax);
-                    }
-                }
-
-                dState.RX = (byte)Math.Round(curvex, 0);
-                dState.RY = (byte)Math.Round(curvey, 0);
-            }
 
             if (lsMod.deadzoneType == StickDeadZoneInfo.DeadZoneType.Radial)
             {
@@ -939,6 +866,38 @@ namespace DS4Windows
                         else
                         {
                             dState.LY = 128;
+                        }
+                    }
+                }
+
+                // Process LS Outer Binding
+                dState.OutputLSOuter = 0;
+                if (dState.LX != 128 || dState.LY != 128)
+                {
+                    int adjustX = dState.LX - 128;
+                    int adjustY = dState.LY - 128;
+                    double r = Math.Atan2(-adjustY, adjustX);
+                    //double r = Math.Atan2(-(dState.RY - 128.0), (dState.RX - 128.0));
+                    //double maxXValue = dState.RX >= 128.0 ? 127.0 : -128;
+                    //double maxYValue = dState.RY >= 128.0 ? 127.0 : -128;
+                    double hyp = Math.Sqrt((adjustX * adjustX) + (adjustY * adjustY));
+
+                    if (hyp != 0.0)
+                    {
+                        int maxValue = r >= 0.0 ? 127 : 128;
+                        double ratio = hyp / maxValue;
+                        if (ratio > 1.0) ratio = 1.0;
+                        double currentValue = ratio * 255;
+                        double deadValue = lsMod.outerBindDeadZone * 0.01 * 255.0;
+                        if (!lsMod.outerBindInvert && currentValue > deadValue)
+                        {
+                            double outputRatio = (currentValue - deadValue) / (double)(maxValue - deadValue);
+                            dState.OutputLSOuter = (byte)(outputRatio * 255);
+                        }
+                        else if (lsMod.outerBindInvert && currentValue < deadValue)
+                        {
+                            double outputRatio = (deadValue - currentValue) / (double)deadValue;
+                            dState.OutputRSOuter = (byte)(outputRatio * 255);
                         }
                     }
                 }
@@ -1130,6 +1089,38 @@ namespace DS4Windows
                         else
                         {
                             dState.RY = 128;
+                        }
+                    }
+                }
+
+                // Process RS Outer Binding
+                dState.OutputRSOuter = 0;
+                if (dState.RX != 128 || dState.RY != 128)
+                {
+                    int adjustX = dState.RX - 128;
+                    int adjustY = dState.RY - 128;
+                    double r = Math.Atan2(-adjustY, adjustX);
+                    //double r = Math.Atan2(-(dState.RY - 128.0), (dState.RX - 128.0));
+                    //double maxXValue = dState.RX >= 128.0 ? 127.0 : -128;
+                    //double maxYValue = dState.RY >= 128.0 ? 127.0 : -128;
+                    double hyp = Math.Sqrt((adjustX * adjustX) + (adjustY * adjustY));
+
+                    if (hyp != 0.0)
+                    {
+                        int maxValue = r >= 0.0 ? 127 : 128;
+                        double ratio = hyp / maxValue;
+                        if (ratio > 1.0) ratio = 1.0;
+                        double currentValue = ratio * 255;
+                        double deadValue = rsMod.outerBindDeadZone * 0.01 * 255.0;
+                        if (!rsMod.outerBindInvert && currentValue > deadValue)
+                        {
+                            double outputRatio = (currentValue - deadValue) / (double)(maxValue - deadValue);
+                            dState.OutputRSOuter = (byte)(outputRatio * 255);
+                        }
+                        else if (rsMod.outerBindInvert && currentValue < deadValue)
+                        {
+                            double outputRatio = (deadValue - currentValue) / (double)deadValue;
+                            dState.OutputRSOuter = (byte)(outputRatio * 255);
                         }
                     }
                 }

@@ -31,9 +31,9 @@
 
             </Button>
         </StackPanel>
-        <TabControl x:Name="sidebarTabControl" Width="460" DockPanel.Dock="Left" SelectionChanged="SidebarTabControl_SelectionChanged">
+        <TabControl x:Name="sidebarTabControl" Width="480" DockPanel.Dock="Left" SelectionChanged="SidebarTabControl_SelectionChanged">
             <TabItem Header="Controls">
-                <DockPanel Width="440" LastChildFill="False">
+                <DockPanel Width="470" LastChildFill="False">
                     <DockPanel.Background>
                         <SolidColorBrush Color="DimGray"/>
                     </DockPanel.Background>
@@ -346,7 +346,8 @@
                                                     <RowDefinition Style="{StaticResource gridRowHeight}" />
                                                     <RowDefinition Style="{StaticResource gridRowHeight}" />
                                                     <RowDefinition Style="{StaticResource gridRowHeight}" />
-                                                    <RowDefinition Style="{StaticResource gridRowHeight}" />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
                                                 </Grid.RowDefinitions>
 
                                                 <Label Content="Output Curve:" Grid.Row="0" Grid.Column="0" />
@@ -376,24 +377,21 @@
                                                        Margin="{StaticResource spaceMargin}" />
                                                 </StackPanel>
 
-                                                <Label Content="Curve (Input):" Grid.Row="3" Grid.Column="0" />
-                                                <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right">
-                                                    <xctk:DoubleUpDown d:IsHidden="True" MinWidth="100" Value="{Binding LSCurve}" Minimum="0" Maximum="100"
-                                                       ToolTip="{lex:Loc StickInputCurveTooltip}"
-                                                       Margin="{StaticResource spaceMargin}" />
-                                                    <Label Content="%" />
-                                                </StackPanel>
-
-                                                <Label Content="Rotation:" Grid.Row="4" Grid.Column="0" />
-                                                <DockPanel Grid.Row="4" Grid.Column="1">
+                                                <Label Content="Rotation:" Grid.Row="3" Grid.Column="0" />
+                                                <DockPanel Grid.Row="3" Grid.Column="1">
                                                     <TextBlock Text="&#xb0;" DockPanel.Dock="Right" FontSize="18" Margin="{StaticResource spaceMargin}" />
                                                     <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding LSRotation}"
-                                                    Minimum="-180" Maximum="180"
-                                                    Margin="{StaticResource spaceMargin}" />
+                                                        Minimum="-180" Maximum="180"
+                                                        Margin="{StaticResource spaceMargin}">
+                                                        <xctk:IntegerUpDown.ToolTip>
+                                                            <TextBlock TextWrapping="Wrap" Text="{lex:Loc StickRotationTooltip}">
+                                                            </TextBlock>
+                                                        </xctk:IntegerUpDown.ToolTip>
+                                                    </xctk:IntegerUpDown>
                                                 </DockPanel>
 
-                                                <Label Content="Fuzz:" Grid.Row="5" Grid.Column="0" />
-                                                <DockPanel Grid.Row="5" Grid.Column="1">
+                                                <Label Content="Fuzz:" Grid.Row="4" Grid.Column="0" />
+                                                <DockPanel Grid.Row="4" Grid.Column="1">
                                                     <TextBlock Text="units" DockPanel.Dock="Right" FontSize="10" Margin="{StaticResource spaceMargin}" VerticalAlignment="Center" />
                                                     <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding LSFuzz}"
                                                     Minimum="0" Maximum="100"
@@ -405,8 +403,8 @@
                                                     </xctk:IntegerUpDown>
                                                 </DockPanel>
 
-                                                <Label Content="Anti Snapback:" Grid.Row="6" Grid.Column="0" />
-                                                <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right">
+                                                <Label Content="Anti Snapback:" Grid.Row="5" Grid.Column="0" />
+                                                <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right">
                                                     <CheckBox IsChecked="{Binding LSAntiSnapback}" Margin="{StaticResource spaceMargin}" VerticalAlignment="Center" />
                                                     <xctk:DoubleUpDown d:IsHidden="True" FormatString="F1" Value="{Binding LSAntiSnapbackDelta, FallbackValue=135}"
                                                        MinWidth="100" Minimum="0.0" Maximum="256.0" Increment="1.0" IsEnabled="{Binding LSAntiSnapback}"
@@ -414,13 +412,30 @@
                                                     <TextBlock Text="units" DockPanel.Dock="Right" FontSize="10" Margin="{StaticResource spaceMargin}" VerticalAlignment="Center" />
                                                 </StackPanel>
 
-                                                <Label Content="Anti Snapback timing:" Grid.Row="7" Grid.Column="0" />
-                                                <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right">
+                                                <Label Content="Anti Snapback timing:" Grid.Row="6" Grid.Column="0" />
+                                                <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right">
                                                     <xctk:IntegerUpDown d:IsHidden="True" FormatString="F1" Value="{Binding LSAntiSnapbackTimeout}"
                                                        MinWidth="100" Minimum="0" Maximum="1000" Increment="1" IsEnabled="{Binding LSAntiSnapback}"
                                                        Margin="{StaticResource spaceMargin}" />
                                                     <TextBlock Text="ms" DockPanel.Dock="Right" FontSize="10" Margin="{StaticResource spaceMargin}" VerticalAlignment="Center" />
                                                 </StackPanel>
+
+                                                <Label Content="Outer Btn:" Grid.Row="7" Grid.Column="0" />
+                                                <DockPanel Grid.Row="7" Grid.Column="1">
+                                                    <Button Content="Outer Bind" MinWidth="40" Tag="{Binding LSOuterBind, Source={StaticResource controlIndexCheck}}"
+                                                            Click="StickOuterBindButton_Click"
+                                                            Margin="{StaticResource spaceMargin}" ToolTip="{lex:Loc StickOuterBindTooltip}"  DockPanel.Dock="Top" />
+                                                    <Label x:Name="lsOuterBindLb" Content="{Binding MappingName,FallbackValue=Unassigned}"
+                                                        Margin="{StaticResource spaceMargin}" HorizontalAlignment="Center" DockPanel.Dock="Top"/>
+                                                </DockPanel>
+
+                                                <Label Content="Outer Btn Dead:" Grid.Row="8" Grid.Column="0" />
+                                                <DockPanel Grid.Row="8" Grid.Column="1">
+                                                    <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding LSOuterBindDead}"
+                                                       MinWidth="100" Minimum="0.0" Maximum="1.0" Increment="0.1"
+                                                       Margin="{StaticResource spaceMargin}" ToolTip="{lex:Loc StickOuterBindDeadTooltip}" DockPanel.Dock="Top" />
+                                                    <CheckBox Content="Invert" IsChecked="{Binding LSOuterBindInvert}" ToolTip="{lex:Loc StickOuterBindInvertTooltip}" DockPanel.Dock="Top" HorizontalAlignment="Right" />
+                                                </DockPanel>
                                             </Grid>
                                         </DockPanel>
                                     </TabItem>
@@ -458,7 +473,6 @@
                                                 <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding LSMinAngleThreshold,UpdateSourceTrigger=LostFocus}" FormatString="F2" MinWidth="50" Maximum="180.0" Minimum="0.0" Increment="0.5"
                                                    Margin="{StaticResource spaceMargin}" />
                                             </DockPanel>
-
                                         </Grid>
                                     </TabItem>
                                 </TabControl>
@@ -564,7 +578,8 @@
                                                     <RowDefinition Style="{StaticResource gridRowHeight}" />
                                                     <RowDefinition Style="{StaticResource gridRowHeight}" />
                                                     <RowDefinition Style="{StaticResource gridRowHeight}" />
-                                                    <RowDefinition Style="{StaticResource gridRowHeight}" />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
                                                 </Grid.RowDefinitions>
 
                                                 <Label Content="Output Curve:" Grid.Row="0" Grid.Column="0" />
@@ -594,24 +609,21 @@
                                                        Margin="{StaticResource spaceMargin}" />
                                                 </StackPanel>
 
-                                                <Label Content="Curve (Input):" Grid.Row="3" Grid.Column="0" />
-                                                <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right">
-                                                    <xctk:DoubleUpDown d:IsHidden="True" MinWidth="100" Value="{Binding RSCurve}" Minimum="0" Maximum="100"
-                                                       ToolTip="{lex:Loc StickInputCurveTooltip}"
-                                                       Margin="{StaticResource spaceMargin}"/>
-                                                    <Label Content="%" />
-                                                </StackPanel>
-
-                                                <Label Content="Rotation:" Grid.Row="4" Grid.Column="0" />
-                                                <DockPanel Grid.Row="4" Grid.Column="1">
+                                                <Label Content="Rotation:" Grid.Row="3" Grid.Column="0" />
+                                                <DockPanel Grid.Row="3" Grid.Column="1">
                                                     <TextBlock Text="&#xb0;" DockPanel.Dock="Right" FontSize="18" Margin="{StaticResource spaceMargin}" />
                                                     <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding RSRotation}"
-                                                    Minimum="-180" Maximum="180"
-                                                    Margin="{StaticResource spaceMargin}" />
+                                                        Minimum="-180" Maximum="180"
+                                                        Margin="{StaticResource spaceMargin}">
+                                                        <xctk:IntegerUpDown.ToolTip>
+                                                            <TextBlock TextWrapping="Wrap" Text="{lex:Loc StickRotationTooltip}">
+                                                            </TextBlock>
+                                                        </xctk:IntegerUpDown.ToolTip>
+                                                    </xctk:IntegerUpDown>
                                                 </DockPanel>
 
-                                                <Label Content="Fuzz:" Grid.Row="5" Grid.Column="0" />
-                                                <DockPanel Grid.Row="5" Grid.Column="1">
+                                                <Label Content="Fuzz:" Grid.Row="4" Grid.Column="0" />
+                                                <DockPanel Grid.Row="4" Grid.Column="1">
                                                     <TextBlock Text="units" DockPanel.Dock="Right" FontSize="10" Margin="{StaticResource spaceMargin}" VerticalAlignment="Center" />
                                                     <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding RSFuzz}"
                                                     Minimum="0" Maximum="100"
@@ -623,8 +635,8 @@
                                                     </xctk:IntegerUpDown>
                                                 </DockPanel>
 
-                                                <Label Content="Anti Snapback:" Grid.Row="6" Grid.Column="0" />
-                                                <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right">
+                                                <Label Content="Anti Snapback:" Grid.Row="5" Grid.Column="0" />
+                                                <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right">
                                                     <CheckBox IsChecked="{Binding RSAntiSnapback}" Margin="{StaticResource spaceMargin}" VerticalAlignment="Center" />
                                                     <xctk:DoubleUpDown d:IsHidden="True" FormatString="F1" Value="{Binding RSAntiSnapbackDelta, FallbackValue=135}"
                                                        MinWidth="100" Minimum="0.0" Maximum="256.0" Increment="1.0" IsEnabled="{Binding LSAntiSnapback}"
@@ -632,13 +644,30 @@
                                                     <TextBlock Text="units" DockPanel.Dock="Right" FontSize="10" Margin="{StaticResource spaceMargin}" VerticalAlignment="Center" />
                                                 </StackPanel>
 
-                                                <Label Content="Anti Snapback timing:" Grid.Row="7" Grid.Column="0" />
-                                                <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right">
+                                                <Label Content="Anti Snapback timing:" Grid.Row="6" Grid.Column="0" />
+                                                <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right">
                                                     <xctk:IntegerUpDown d:IsHidden="True" FormatString="F1" Value="{Binding RSAntiSnapbackTimeout}"
                                                        MinWidth="100" Minimum="0" Maximum="1000" Increment="1" IsEnabled="{Binding RSAntiSnapback}"
                                                        Margin="{StaticResource spaceMargin}" />
                                                     <TextBlock Text="ms" DockPanel.Dock="Right" FontSize="10" Margin="{StaticResource spaceMargin}" VerticalAlignment="Center" />
                                                 </StackPanel>
+
+                                                <Label Content="Outer Btn:" Grid.Row="7" Grid.Column="0" />
+                                                <DockPanel Grid.Row="7" Grid.Column="1">
+                                                    <Button Content="Outer Bind" MinWidth="40" Tag="{Binding RSOuterBind, Source={StaticResource controlIndexCheck}}"
+                                                        Click="StickOuterBindButton_Click"
+                                                        Margin="{StaticResource spaceMargin}" ToolTip="{lex:Loc StickOuterBindTooltip}" DockPanel.Dock="Top" />
+                                                    <Label x:Name="rsOuterBindLb" Content="{Binding MappingName,FallbackValue=Unassigned}"
+                                                        Margin="{StaticResource spaceMargin}" HorizontalAlignment="Center" DockPanel.Dock="Top"/>
+                                                </DockPanel>
+
+                                                <Label Content="Outer Btn Dead:" Grid.Row="8" Grid.Column="0" />
+                                                <DockPanel Grid.Row="8" Grid.Column="1">
+                                                    <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding RSOuterBindDead}"
+                                                       MinWidth="100" Minimum="0.0" Maximum="1.0" Increment="0.1"
+                                                       Margin="{StaticResource spaceMargin}" ToolTip="{lex:Loc StickOuterBindDeadTooltip}"  DockPanel.Dock="Top" />
+                                                    <CheckBox Content="Invert" IsChecked="{Binding RSOuterBindInvert}" ToolTip="{lex:Loc StickOuterBindInvertTooltip}" DockPanel.Dock="Top" HorizontalAlignment="Right" />
+                                                </DockPanel>
                                             </Grid>
                                         </DockPanel>
 
@@ -794,10 +823,10 @@
                                             Similar to Normal Two Stage Trigger mode with one difference. Activates Soft Pull action when under maximum output. Activates Full Pull action as well when trigger reaches maximum value. When the trigger is partially released from Full Pull, both Full Pull and Soft Pull actions deactivate. Activating Full Pull action will activate the Soft Pull again as well.<LineBreak />
                                             <LineBreak />
                                             <Bold>Hip Fire</Bold><LineBreak />
-                                            Takes the <Bold>Hip Fire Delay</Bold> time into account. The trigger will not activate an action until the time has expired. Once the time has expired, the current action for the trigger output will be determined. This mode allows skipping the activation of Soft Pull and only firing a Full Pull action.
+                                            Takes the <Bold>Hip Fire Delay</Bold> time into account. The trigger will not activate an action until the time has expired. Once the time has expired, the current action for the trigger output will be determined. This mode allows skipping the activation of Soft Pull and only firing a Full Pull action.<LineBreak />
                                             <LineBreak />
                                             <Bold>Hip Fire Exclusive</Bold><LineBreak />
-                                            Similar to Hip Fire mode. The main difference is only one action will ever be activated.<LineBreak />
+                                            Similar to Hip Fire mode. The main difference is only one action will ever be activated.
                                         </TextBlock>
                                     </ComboBox.ToolTip>
                                 </ComboBox>
@@ -819,10 +848,10 @@
                                             Similar to Normal Two Stage Trigger mode with one difference. Activates Soft Pull action when under maximum output. Activates Full Pull action as well when trigger reaches maximum value. When the trigger is partially released from Full Pull, both Full Pull and Soft Pull actions deactivate. Activating Full Pull action will activate the Soft Pull again as well.<LineBreak />
                                             <LineBreak />
                                             <Bold>Hip Fire</Bold><LineBreak />
-                                            Takes the <Bold>Hip Fire Delay</Bold> time into account. The trigger will not activate an action until the time has expired. Once the time has expired, the current action for the trigger output will be determined. This mode allows skipping the activation of Soft Pull and only firing a Full Pull action.
+                                            Takes the <Bold>Hip Fire Delay</Bold> time into account. The trigger will not activate an action until the time has expired. Once the time has expired, the current action for the trigger output will be determined. This mode allows skipping the activation of Soft Pull and only firing a Full Pull action.<LineBreak />
                                             <LineBreak />
                                             <Bold>Hip Fire Exclusive</Bold><LineBreak />
-                                            Similar to Hip Fire mode. The main difference is only one action will ever be activated.<LineBreak />
+                                            Similar to Hip Fire mode. The main difference is only one action will ever be activated.
                                         </TextBlock>
                                     </ComboBox.ToolTip>
                                 </ComboBox>
@@ -875,7 +904,7 @@
                             </Grid>
                         </GroupBox>
 
-                        <GroupBox Header="SixAxis">
+                        <GroupBox Header="SixAxis (Accel)">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
@@ -1092,7 +1121,7 @@
                                     </StackPanel>
 
                                     <CheckBox Content="Jitter Compensation" Grid.Row="0" Grid.Column="1" IsChecked="{Binding TouchJitter}" VerticalAlignment="Center"
-                                                          ToolTip="{lex:Loc Resources:Jitter}" />
+                                                          ToolTip="{lex:Loc TouchpadJitterCompTooltip}" />
 
                                     <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="{StaticResource spaceMargin}">
                                         <CheckBox Content="{lex:Loc TouchTap}" IsChecked="{Binding TouchTapExists}" VerticalAlignment="Center" ToolTip="{lex:Loc TouchpadTapTooltip}" />
@@ -1244,7 +1273,7 @@
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                             <Label Content="Output Mode" />
                             <ComboBox x:Name="gyroOutModeCombo" Width="160" SelectedIndex="{Binding GyroOutModeIndex, FallbackValue=0}" VerticalContentAlignment="Center" Margin="10,0,0,0">
-                                <ComboBoxItem Content="Controls" />
+                                <ComboBoxItem Content="Controls (Accel)" />
                                 <ComboBoxItem Content="Mouse" />
                                 <ComboBoxItem Content="Mouse Joystick" />
                                 <ComboBoxItem Content="Directional Swipe" />
@@ -1359,7 +1388,7 @@
                                     <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
                                         <Label Content="Fuzz:" />
                                         <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding SASteeringWheelFuzz}"
-                                                    Minimum="0" Maximum="100"
+                                                    Minimum="0" Maximum="100" ToolTip="{lex:Loc SASteeringWheelFuzzTooltip}"
                                                     Margin="{StaticResource spaceMargin}" />
                                         <TextBlock Text="units" FontSize="10" Margin="{StaticResource spaceMargin}" VerticalAlignment="Center" />
                                     </StackPanel>
@@ -1427,7 +1456,7 @@
                             <StackPanel Orientation="Horizontal" Margin="{StaticResource spaceMargin}">
                                 <Label Content="Gyro Sensitivity:" />
                                 <xctk:IntegerUpDown d:IsHidden="True" MinWidth="50" Margin="8,0,0,0" Value="{Binding GyroSensitivity}"
-                                                Minimum="0" Maximum="500" />
+                                                Minimum="0" Maximum="500" Increment="10" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="{StaticResource spaceMargin}">

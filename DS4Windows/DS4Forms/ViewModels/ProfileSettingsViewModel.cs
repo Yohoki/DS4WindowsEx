@@ -580,8 +580,16 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public bool DInputOnly
         {
             get => Global.DinputOnly[device];
-            set => Global.DinputOnly[device] = value;
+            set
+            {
+                bool temp = Global.DinputOnly[device];
+                if (temp == value) return;
+
+                Global.DinputOnly[device] = value;
+                DInputOnlyChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+        public EventHandler DInputOnlyChanged;
 
         public bool IdleDisconnectExists
         {
@@ -1017,18 +1025,6 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             }
         }
 
-        public int LSCurve
-        {
-            get => Global.LSCurve[device];
-            set => Global.LSCurve[device] = value;
-        }
-
-        public int RSCurve
-        {
-            get => Global.RSCurve[device];
-            set => Global.RSCurve[device] = value;
-        }
-
         public double LSRotation
         {
             get => Global.LSRotation[device] * 180.0 / Math.PI;
@@ -1110,6 +1106,30 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         {
             get => Global.RSAntiSnapbackInfo[device].timeout;
             set => Global.RSAntiSnapbackInfo[device].timeout = value;
+        }
+
+        public bool LSOuterBindInvert
+        {
+            get => Global.LSModInfo[device].outerBindInvert;
+            set => Global.LSModInfo[device].outerBindInvert = value;
+        }
+
+        public bool RSOuterBindInvert
+        {
+            get => Global.RSModInfo[device].outerBindInvert;
+            set => Global.RSModInfo[device].outerBindInvert = value;
+        }
+
+        public double LSOuterBindDead
+        {
+            get => Global.LSModInfo[device].outerBindDeadZone / 100.0;
+            set => Global.LSModInfo[device].outerBindDeadZone = value * 100.0;
+        }
+
+        public double RSOuterBindDead
+        {
+            get => Global.RSModInfo[device].outerBindDeadZone / 100.0;
+            set => Global.RSModInfo[device].outerBindDeadZone = value * 100.0;
         }
 
         public int LSOutputIndex
