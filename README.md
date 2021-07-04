@@ -1,8 +1,9 @@
 # DS4Windows-Ex
 This is intended only to restore Exclusive Mode access for those that need it. The new HIDHide program fixes a lot of issues and blocks most apps from recieving the raw inputs fro the physical controller, but some *cough*microsoft*cough* programs are programmed badly and still get raw inputs. Ex-Mode can block these few apps that still try to get access and works well in combination with HIDHide.
 
-# Version 3.0.11 of Main Branch DS4Win is currently bugged.
-Version 3.0.11 currently has an issue with mouse wheel bound to the right stick. This issue affects my use of the controller, so I will not update this version yet. The current best option is 3.0.9 if you require Exclusive mode for whatever reason.
+### Version 3.0.11 of Main Branch DS4Win is currently bugged.
+~~Version 3.0.11 currently has an issue with mouse wheel bound to the right stick. This issue affects my use of the controller, so I will not update this version yet. The current best option is 3.0.9 if you require Exclusive mode for whatever reason.~~ fixed in new commit, but not yet released on main branch.
+Fixes already applied to Ex-mode branch in release 3.0.11-EX.
 
 
 # Pulled from Main Branch's Readme.md:
