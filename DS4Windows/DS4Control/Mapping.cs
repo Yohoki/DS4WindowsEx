@@ -255,6 +255,7 @@ namespace DS4Windows
                 flickAngleRemainder = DEFAULT_FLICK_ANGLE_REMAINDER;
             }
         }
+
         public static FlickStickMappingData[] flickMappingData = new FlickStickMappingData[Global.MAX_DS4_CONTROLLER_COUNT]
         {
             new FlickStickMappingData(), new FlickStickMappingData(), new FlickStickMappingData(),
@@ -559,7 +560,7 @@ namespace DS4Windows
             if (wheel != 0) //Continue mouse wheel movement
             {
                 DateTime now = DateTime.UtcNow;
-                if (now >= oldnow + TimeSpan.FromMilliseconds(100) && !pressagain)
+                if (now >= oldnow + TimeSpan.FromMilliseconds(200) && !pressagain)
                 {
                     oldnow = now;
                     outputKBMHandler.PerformMouseWheelEvent(wheel, 0);
